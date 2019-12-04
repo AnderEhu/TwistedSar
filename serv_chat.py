@@ -31,10 +31,11 @@ class ChatProtocol(LineReceiver):
 
         
     def connectionLost(self, reason):
-        del self.factory.users[self.name] #no funciona
+        userLost = self.name
+        self.factory.users.pop(self.name, None)
         for i in self.factory.users:
             user = self.factory.users[i]
-            user.sendLine(("OUT{}".format(user.name)).encode("utf-8"))
+            user.sendLine(("OUT{}".format(userLost)).encode("utf-8"))
         #A COMPLETAR
     def lineReceived(self, line):
         mensage = line.decode("utf-8")
@@ -60,7 +61,7 @@ class ChatProtocol(LineReceiver):
                 self.name = userName
                 self.sendLine("+".encode( "utf-8"))
 
-        if mensage.startswith("MSG"):
+        elif mensage.startswith("MSG"):
             mensage = mensage[3:]
             #Si el mensaje es demasiado largo
             if len(mensage) > MAX_MSG_LENGTH:
@@ -70,6 +71,8 @@ class ChatProtocol(LineReceiver):
                 for i in self.factory.users:
                     if self.name not in self.factory.users[i].name:
                         self.factory.users[i].sendLine(("MSG{}{}".format(self.name,mensage)).encode("utf-8"))
+        else:
+            self.sendLine( ("-{}".format( 0 )).encode( "utf-8" ) )
 
                 
 
