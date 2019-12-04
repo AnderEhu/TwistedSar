@@ -1,0 +1,4 @@
+self users = {}
+cuando viene un nuevo user, en la lista user:	users[nombre] = ______ (el objeto chat protocol)
+
+envia al server user y separados por espacios. con una lista de nombres de users, "[blanco]".join
