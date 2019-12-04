@@ -8,6 +8,8 @@
 #Responses
     CMD_OK = "+"
     CMD_ERROR = "-"
+    CMD_FTR = "FTR"
+    CMD_USERS = "USR"
 
 #Errors
     CMD_ERRORS = {
